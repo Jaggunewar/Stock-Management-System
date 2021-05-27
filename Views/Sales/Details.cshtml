@@ -1,0 +1,49 @@
+﻿@model IEnumerable<StockManagementSystem.ViewModels.SalesIndexVM>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<p>
+   <label>Customer:@Model.FirstOrDefault().CustomerName</label>
+   <label>Phone Number:@Model.FirstOrDefault().CustomerPhoneNumber</label>
+   <label>Sales Date:@Model.FirstOrDefault().SaleDate</label>
+   <label>Total Amount:@Model.FirstOrDefault().TotalAmount</label>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>Sub Total</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+               @(item.Price*item.Quantity)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

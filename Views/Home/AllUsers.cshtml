@@ -1,0 +1,37 @@
+﻿
+@model List<StockManagementSystem.ViewModels.AdminVM>
+
+@{
+    ViewData["Title"] = "AllUsers";
+}
+
+<h1>AllUsers</h1>
+
+
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.PhoneNumber
+            </td>
+           <td>
+               <a asp-action="UpdateUser" asp-controller="Home" asp-route-id="@item.Id">Update User</a>
+           </td>
+        </tr>
+
+    }
+</table>
+

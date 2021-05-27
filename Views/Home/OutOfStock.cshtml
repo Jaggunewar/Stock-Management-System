@@ -1,0 +1,48 @@
+﻿@model List<StockManagementSystem.Models.ProductStock>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<h4>
+    Out of Stock Items
+</h4>
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th>
+            <a asp-action="OutOfStock" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+        </th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>
+            <a asp-action="OutOfStock" asp-route-sortOrder="@ViewData["QuantitySortParm"]">Quantity</a>
+        </th>
+        <th>
+          
+            <a asp-action="OutOfStock" asp-route-sortOrder="@ViewData["DateSortParm"]">LastActive</a>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Product.ProductName
+            </td>
+            <td>
+                @item.Product.Category.CategoryName
+            </td>
+            <td>
+                @item.Product.Description
+            </td>
+            <td>@item.Quantity</td>
+            <td>
+                @item.Product.LastActive
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+

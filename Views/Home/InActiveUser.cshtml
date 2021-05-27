@@ -1,0 +1,28 @@
+﻿@model List<StockManagementSystem.Models.Customer>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>Inactive Users</h3>
+<table class="table table-bordered table-striped">
+    <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+    <th>Last Active</th>
+    </tr>
+    @foreach (var item in Model)
+	{
+		<tr>
+            <td>
+                @item.CustomerName
+            </td> <td>
+                @item.CustomerPhoneNumber
+            </td> <td>
+                @item.CustomerAddress
+            </td> <td>
+                @item.LastActive
+            </td>
+        </tr> 
+	}
+</table>

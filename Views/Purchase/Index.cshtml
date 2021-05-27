@@ -1,0 +1,73 @@
+﻿@model IEnumerable<StockManagementSystem.ViewModels.PurchaseIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Purchase</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @*<div class="col-md-4">
+        <div class="form-group">
+            <label>Customer</label>
+            @Html.DropDownList("customerName", null, new { @class = "form-control ddlSelect" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group" style="padding-top:22px;">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </div>*@
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BillNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VendorName)
+        </th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model.ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorName)
+            </td>
+           <td>@item.ProductName</td>
+            <td>@item.Price</td>
+            <td>@item.Quantity</td>
+            <td>
+               @* @Html.ActionLink("Edit", "Edit", new { id = item.PurchaseID }) |*@
+                @Html.ActionLink("Bill Generation", "Detail", new { id = item.PurchaseId }) |
+               @* @Html.ActionLink("Delete", "Delete", new { id = item.PurchaseID })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        $(".ddlSelect").select2({ placeholder: 'search by item customer...', allowClear: true });
+
+        $('.ddlSelect').on('select2:select', function (e) {
+            console.log("Select event");
+            $("form").submit();
+        })
+    </script>
+}

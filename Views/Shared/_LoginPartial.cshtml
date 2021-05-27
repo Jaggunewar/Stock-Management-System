@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<style>
+    .badge1 {
+        position: relative;
+    }
+
+        .badge1[data-badge]:after {
+            content: attr(data-badge);
+            position: absolute;
+            top: -2px;
+            right: -10px;
+            font-size: .7em;
+            background: red;
+            color: white;
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            line-height: 18px;
+            border-radius: 50%;
+            box-shadow: 0 0 1px #333;
+        }
+</style>
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="badge1 nav-link dropdown-toggle" data-badge="6" data-toggle="dropdown">Notification</a>
+            @*<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Inbox</a>*@
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-action="outofstock" asp-controller="home">See outofstock items..</a>
+
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        <!--<li class="nav-item dropdown">
+            <a class="badge1 nav-link dropdown-toggle" data-badge="6" data-toggle="dropdown">Notification</a>-->
+            @*<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Inbox</a>*@
+            <!--<div class="dropdown-menu">
+                <a class="dropdown-item" asp-action="outofstock" asp-controller="home">See outofstock items..</a>
+
+            </div>
+        </li>-->
+    }
+</ul>

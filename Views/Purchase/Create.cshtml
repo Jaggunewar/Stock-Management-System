@@ -1,0 +1,157 @@
+﻿@model StockManagementSystem.ViewModels.PurchaseVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PurchaseDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BillNumber" class="control-label"></label>
+                <input asp-for="BillNumber" class="form-control" />
+                <span asp-validation-for="BillNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorName" class="control-label"></label>
+                <input asp-for="VendorName" class="form-control" />
+                <span asp-validation-for="VendorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseDate" class="control-label"></label>
+                <input asp-for="PurchaseDate" class="form-control" />
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+            <div>Add Products</div>
+            <div><a class="btn btn-primary" href="#" id="addNew">Add New</a></div>
+            <table class="table table-bordered" id="dataTable" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th></th>
+                </tr>
+                @{
+                    int j = 0;
+                    foreach (var i in Model.Items)
+                    {
+                        <tr style="border:1px solid black">
+                            <td>
+                                <select asp-for="Items[j].ProductID" class="form-control">
+                                    @foreach (var item in Model.DropDownItems)
+
+                                    {
+                                        <option data-price="@item.Price" value="@item.Id">@item.Name</option>
+
+                                    }
+
+                                </select>
+                            </td>
+                            <td>@Html.TextBox("Items[" + j + "].Quantity", i.Quantity, new { @class = "form-control", id = "txtQuantity" })</td>
+                            <td>@Html.TextBox("Items[" + j + "].Price", i.Price, new { @class = "form-control", id = "txtPrice" })</td>
+                            <td>@Html.TextBox("Items[" + j + "].SubTotal", i.SubTotal, new { @class = "form-control", id = "txtSubTotal" })</td>
+                            <td>
+                                @if (j > 0)
+                                {
+                                    <a href="#" class="btn btn-danger remove">Remove</a>
+                                }
+                            </td>
+                        </tr>
+                        j++;
+                    }
+                }
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section scripts{
+    <script language="javascript">
+        $(document).ready(function () {
+
+            //1. Add new row
+            $("#addNew").click(function (e) {
+                e.preventDefault();
+                var $tableBody = $("#dataTable");
+                var $trLast = $tableBody.find("tr:last");
+                var $trNew = $trLast.clone();
+
+                var suffix = $trNew.find(':input:first').attr('name').match(/\d+/);
+                $trNew.find("td:last").html('<a href="#" class="btn btn-danger remove">Remove</a>');
+                $.each($trNew.find(':input'), function (i, val) {
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + (parseInt(suffix) + 1) + ']');
+                    $(this).attr('name', newN);
+                    //Replaced value
+                    //var type = $(this).attr('type');
+                    //if (type.toLowerCase() == "decimal") {
+                    //    $(this).attr('value', 0);
+                    //}
+
+                    // If you have another Type then replace with default value
+                    $(this).removeClass("input-validation-error");
+
+                });
+                $trLast.after($trNew);
+
+                // Re-assign Validation
+                //var form = $("form")
+                //    .removeData("validator")
+                //    .removeData("unobtrusiveValidation");
+                //$.validator.unobtrusive.parse(form);
+            });
+
+            // 2. Remove
+            // $("body a.remove").click(function (e) {
+            $(document).on('click', 'a.remove', function () {
+                // $('body a.remove').on("click", function (e) {
+                //  e.preventDefault();
+                $(this).parent().parent().remove();
+            });
+
+
+            $(document).on('change', '#txtQuantity', function () {
+                //var $tr =
+                var quantity = $(this).val()//)$(this).closest('tr').find('input#txtQauntity').val();
+                var price = $(this).closest('tr').find('input#txtPrice').val();
+                $(this).closest('tr').find('input#txtSubTotal').val(parseFloat(quantity) * parseFloat(price));
+                // inputSubTotal.val(parseFloat(quantity) * parseFloat(price));
+            })
+
+            $(document).on('change', '#txtPrice', function () {
+                var quantity = $(this).closest('tr').find('input#txtQuantity').val();
+                var price = $(this).val()//.closest('tr').find('input#txtPrice').val();
+
+                $(this).closest('tr').find('input#txtSubTotal').val(parseFloat(quantity) * parseFloat(price));
+                //  inputSubTotal.val(parseFloat(quantity) * parseFloat(price));
+
+            })
+
+            //   $('body #txtQuamtity').trigger('change')(function () {
+            ////   $("#txtQuantity #txtPrice").change(function () {
+            //       var quantity = $(this).closest('tr').find('input').eq(1).val();
+            //       var price = $(this).closest('tr').find('input').eq(2).val();
+            //       var inputSubTotal = $(this).closest('tr').find('input').eq(3);
+            //       inputSubTotal.val(quantity * price);
+            //   })
+
+        });
+    </script>
+
+}

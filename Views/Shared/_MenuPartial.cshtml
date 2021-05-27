@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager 
+@{
+
+    var applicationUser =await UserManager.GetUserAsync(User);
+    string email = applicationUser?.Email;
+    // var user = UserManager.FindById(User.Identity.GetUserId());
+    // var email = User.Identity.GetUserName();
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Purchase" asp-action="Index">Purchase</a>
+    </li><li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class=" nav-link dropdown-toggle" data-badge="0" data-toggle="dropdown">InActive</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" asp-action="InActiveProduct" asp-controller="home">InActive Product</a>
+            <a class="dropdown-item" asp-action="InActiveuser" asp-controller="home">InActive Users</a>
+            <a class="dropdown-item" asp-action="OutOfStock" asp-controller="home"> </a>
+
+        </div>
+    </li>
+    @if (email == "admin1@gmail.com")
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="home" asp-action="allusers">View Users</a>
+        </li>}
+    }
